@@ -139,7 +139,7 @@ class cart extends DController
             $vnp_TmnCode = "VHKWZDMW"; //Website ID in VNPAY System
             $vnp_HashSecret = "IJRCDIKQIAXXALPXPOOVVMZXADGZTPXO"; //Secret key
             $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-            $vnp_Returnurl = "http://localhost/web-add-giao-dien/cart/thankYou";
+            $vnp_Returnurl = "http://localhost/Doan2-git/Doan2/cart/thankYou";
             $vnp_apiUrl = "http://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
             //Config input format
             //Expire

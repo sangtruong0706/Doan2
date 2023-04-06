@@ -77,6 +77,9 @@ class index extends DController
     }
     public function Search()
     {
+        $categoryModel = $this->load->model('categoryModel');
+        $tableCate = 'tbl_category';
+        $data['categoryAll'] = $categoryModel->category($tableCate);
         $homeModel = $this->load->model('homeModel');
         if (isset($_GET['search'])) {
             $key = $_GET['key_search'];
@@ -85,7 +88,7 @@ class index extends DController
         $cond = "$tablePro.title_product LIKE '%$key%'";
         $data['result_search'] = $homeModel->Search($tablePro, $cond);
         $this->load->view('user/header');
-        $this->load->view('user/search', $data);
+        $this->load->view('user/home/search', $data);
         $this->load->view('user/footer');
     }
 }
