@@ -105,7 +105,7 @@ if (isset($_SESSION['customer']) && isset($_SESSION['shopping_cart']) && !empty(
                                         <input type="text" id="customerEmail" required name="phone" value="<?= $value['phone'] ?>">
                                     </div>
                                     <div class="form-group">
-                                        <label>Address</label>
+                                        <label>Address <span class="required">*</span></label>
                                         <input type="text" id="contactSubject" name="address" value="<?= $value['address'] ?>">
                                     </div>
                                     <div class="form-group">
@@ -268,7 +268,7 @@ if (isset($_SESSION['customer']) && isset($_SESSION['shopping_cart']) && !empty(
                                     <input type="text" id="customerEmail" required name="phone">
                                 </div>
                                 <div class="form-group">
-                                    <label>Address</label>
+                                    <label>Your Name <span class="required">*</span></label>
                                     <input type="text" id="contactSubject" name="address">
                                 </div>
                                 <div class="form-group">
@@ -280,7 +280,7 @@ if (isset($_SESSION['customer']) && isset($_SESSION['shopping_cart']) && !empty(
                                     <textarea style="resize: none;" rows="1" id="contactMessage" name="note"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" name="add_transport" id="submit" class="li-btn-3">Add shipping information</button>
+                                    <button type="submit" name="add_transport" id="submit" class="add-transport">Add shipping information</button>
                                 </div>
                             </form>
                         </div>

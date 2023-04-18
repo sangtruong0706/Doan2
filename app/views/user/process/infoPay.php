@@ -92,13 +92,13 @@
                                 <span></span>
                             </label>
                         </div>
-                        <div class="radio-group">
+                        <!-- <div class="radio-group">
                             <label >
                                 <input  type="radio" name="payment" value="momo" >
                                 mommo
                                 <span></span>
                             </label>
-                        </div>
+                        </div> -->
                         <div class="radio-group">
                             <label >
                                 <input  type="radio" name="payment" value="vnpay" >

@@ -71,7 +71,7 @@
 
                                         <tr>
                                             <td class="li-product-thumbnail"><a href="#"><img src="<?= ROOT ?>/uploads/product/<?= $value['product_image'] ?>" alt="Li's Product Image"></a></td>
-                                            <td class="li-product-name"><a href="#"><?= $value['product_title'] ?></a></td>
+                                            <td style="max-width: 350px;" class="li-product-name"><a href="#"><?= $value['product_title'] ?></a></td>
                                             <td class="li-product-price"><span class=""><?= number_format($value['product_price'], 0, ',', '.') . 'đ' ?></span></td>
                                             <td class="quantity">
                                                 <button class="btn btn-sm " type="submit" value="<?= $value['product_quantity'] ?>" name="qty_minus[<?= $value['product_id'] ?>]"><i class="bi bi-dash"></i></button>

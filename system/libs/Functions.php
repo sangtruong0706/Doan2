@@ -43,11 +43,22 @@ function check_message($color)
 			<strong>Thông báo: </strong><?= $_SESSION['message'] ?>
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
+	<?php
+		unset($_SESSION['message']);
+	}
+}
+function check_noti($color)
+{
+	if (isset($_SESSION['message']) && $_SESSION['message'] != "") {
+	?>
+		<div class="alert alert-<?= $color ?> alert-dismissible">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<strong>Notification: </strong><?= $_SESSION['message'] ?>
+		</div>
 <?php
 		unset($_SESSION['message']);
 	}
 }
-
 function read_list_local()
 {
 	$file = file_get_contents(ASSETS . "local.json");

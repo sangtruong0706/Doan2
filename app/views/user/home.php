@@ -93,7 +93,11 @@
                                             <div class="add-actions">
                                                 <ul class="add-actions-link">
                                                     <li class="add-cart active"><input type="submit" value="ADD TO CART"></li>
-                                                    <li><a href="<?= BASE_URL ?>/userproduct/detailProduct/<?= $pro_new['id_product'] ?>" title="quick view" ><i class="fa fa-eye"></i></a></li>
+                                                    <li>
+                                                        <a href="<?= BASE_URL ?>/userproduct/detailProduct/<?= $pro_new['id_product'] ?>" title="quick view" >
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -193,7 +197,7 @@ foreach ($category as $key => $cate) :
                                                     <div class="add-actions">
                                                         <ul class="add-actions-link">
                                                             <li class="add-cart active"><input type="submit" value="ADD TO CART"></li>
-                                                            <li><a href="#" title="quick view"  data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
+                                                            <li><a href="<?= BASE_URL ?>/userproduct/detailProduct/<?= $pro_cate['id_product'] ?>" ><i class="fa fa-eye"></i></a></li>
                                                         </ul>
                                                     </div>
                                                 </div>

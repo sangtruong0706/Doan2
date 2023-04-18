@@ -63,5 +63,10 @@
             $statement->execute(array($userName, $password));
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
+        public function getUserPass($sql, $email){
+            $statement = $this->prepare($sql); 
+            $statement->execute([$email]);
+            return $statement->rowCount();
+        }
 
     }

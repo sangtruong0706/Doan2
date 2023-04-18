@@ -44,7 +44,7 @@
                                 <option value="trending">Relevance</option>
                                 <option value="sales">Name (A - Z)</option>
                                 <option value="sales">Name (Z - A)</option>
-                                <option value="rating">Price (Low &gt; High)</option>
+                                <option value="rating"><a href="<?=BASE_URL?>/userproduct/sortbyPrice">Price (Low &gt; High)</a></option>
                             </select>
                         </div>
                     </div>
@@ -88,7 +88,11 @@
                                                             <div class="add-actions">
                                                                 <ul class="add-actions-link">
                                                                     <li class="add-cart active"><input type="submit" value="ADD TO CART"></li>
-                                                                    <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
+                                                                    <li>
+                                                                        <a href="<?= BASE_URL ?>/userproduct/detailProduct/<?= $pro['id_product'] ?>">
+                                                                            <i class="fa fa-eye"></i>
+                                                                        </a>
+                                                                    </li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -177,8 +181,8 @@
                                                 <a class="<?php if ($i == $current_page) {
                                                                 echo 'active';
                                                             } ?>" style="<?php if ($i == $current_page) {
-                                                                                                                            echo 'background:#ccc;';
-                                                                                                                        } ?>" href="<?= BASE_URL ?>/userproduct/paging/<?= $i ?>"><?= $i ?></a>
+                                                                                echo 'background:#ccc;';
+                                                                            } ?>" href="<?= BASE_URL ?>/userproduct/paging/<?= $i ?>"><?= $i ?></a>
                                             </li>
                                         <?php
                                         }

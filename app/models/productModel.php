@@ -70,6 +70,10 @@
             $sql = "SELECT * FROM $tablePro, $tableCate WHERE $cond ";
             return $this->db->select($sql);
         }
+        public function product_by_price($tablePro){
+            $sql = "SELECT * FROM $tablePro ORDER BY price_product ASC";
+            return $this->db->select($sql);
+        }
 
 
     }

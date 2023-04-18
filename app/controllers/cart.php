@@ -66,7 +66,7 @@ class cart extends DController
     }
     public function checkOut($id_customer)
     {
-        require_once(DIR . "/config.php");
+        // require_once(DIR . "/config.php");
         $table_order = 'tbl_order';
         $table_order_detail = 'tbl_order_detail';
         $table_ship = 'tbl_shipping';

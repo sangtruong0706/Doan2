@@ -54,4 +54,13 @@ class customerModel extends DModel
         $sql = "SELECT * FROM $table_vnpay WHERE $cond_vnpay";
         return $this->db->select($sql);
     }
+
+
+    public function getUser($table_customer, $email){
+        $sql = "SELECT * FROM $table_customer WHERE customer_email = ?";
+        return $this->db->getUserPass($sql, $email);
+    }
+    public function updatePass($table_customer,$data_update,$cond){
+        return $this->db->update($table_customer, $data_update, $cond);
+    }
 }

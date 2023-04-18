@@ -5891,7 +5891,31 @@ a:hover {
   object-position: -9px 2px;
 }
 
-
+/* forgot pass */
+.forgot_pass {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.forgot_pass h4{
+  margin: 10px 0;
+  font-weight: 400;
+}
+.forgot_pass input[type="text"] {
+  height: 50px;
+  margin: 10px 0;
+}
+.forgot_pass button {
+  transform: translateX(85%);
+}
+.text_noti {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 0;
+}
 
 
 

@@ -49,7 +49,7 @@
                             <input type="hidden" value="<?= $pro['title_product'] ?>" name="product_title">
                             <input type="hidden" value="<?= $pro['img_product'] ?>" name="product_image">
                             <input type="hidden" value="<?= $pro['price_product'] ?>" name="product_price">
-                            <input type="hidden" value="1" name="product_quantity">
+                            <input type="hidden" value="1" name="product_quantity"> 
 
 
                             <div class="grids">

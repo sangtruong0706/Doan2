@@ -144,7 +144,7 @@
                         <!-- Begin Header Logo Area -->
                         <div class="col-lg-3">
                             <div class="logo pb-sm-30 pb-xs-30">
-                                <a href="index.html">
+                                <a href="<?=BASE_URL?>">
                                     <img src="<?= ASSETS ?>/user/images/menu/logo/1.jpg" alt="">
                                 </a>
                             </div>
