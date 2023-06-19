@@ -26,4 +26,7 @@
         public function orderConfirm($table_order, $data, $cond){
             return $this->db->update($table_order, $data, $cond);
         }
+        public function deleteOrder($table, $cond){
+            return $this->db->delete($table, $cond);
+        }
     }

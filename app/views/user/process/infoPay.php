@@ -2,8 +2,8 @@
     <div class="container">
         <div class="breadcrumb-content">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li class="active">Shopping Cart</li>
+                <li><a href="<?= BASE_URL ?>">Home</a></li>
+                <li class="active">InfoPay</li>
             </ul>
         </div>
     </div>
@@ -85,13 +85,13 @@
                                 <span></span>
                             </label>
                         </div>
-                        <div class="radio-group">
+                        <!-- <div class="radio-group">
                             <label >
                                 <input  type="radio" name="payment" value="chuyenkhoan" >
                                 chuyển khoản
                                 <span></span>
                             </label>
-                        </div>
+                        </div> -->
                         <!-- <div class="radio-group">
                             <label >
                                 <input  type="radio" name="payment" value="momo" >

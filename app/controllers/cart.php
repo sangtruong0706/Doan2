@@ -34,15 +34,17 @@ class cart extends DController
     public function addCart()
     {
         // Session::destroy();
+        // trường hợp đã tồn tại giỏ hàng 
         if (isset($_SESSION['shopping_cart'])) {
             $available = 0;
             foreach ($_SESSION['shopping_cart'] as $key => $value) {
+                //sản phẩm đã có => tăng số lượng
                 if ($_SESSION['shopping_cart'][$key]['product_id'] == $_POST['product_id']) {
                     $available++;
                     $_SESSION['shopping_cart'][$key]['product_quantity'] += $_POST['product_quantity'];
                 }
             }
-            if ($available == 0) {
+            if ($available == 0) { //sản phẩm mới
                 $item = array(
                     'product_id' => $_POST['product_id'],
                     'product_title' => $_POST['product_title'],
@@ -52,7 +54,7 @@ class cart extends DController
                 );
                 $_SESSION['shopping_cart'][] = $item;
             }
-        } else {
+        } else { //chưa có giỏ hàng 
             $item = array(
                 'product_id' => $_POST['product_id'],
                 'product_title' => $_POST['product_title'],
@@ -89,8 +91,14 @@ class cart extends DController
             foreach ($_SESSION['shopping_cart'] as $key => $cus) {
                 $sub_total = $cus['product_price'] * $cus['product_quantity'];
                 $total += $sub_total;
+                $quantity = $cus['product_quantity'];
+                $id_pro = $cus['product_id'];
             }
         }
+        // echo "so luong: ".$quantity;
+        // echo "id: ".$id_pro;
+        // exit;
+
 
         //lấy id shipping
         $cond = "$table_ship.id_customer='$id_customer'";
@@ -99,104 +107,8 @@ class cart extends DController
             $id_shipping = $get_ship['id_customer'];
         }
         // echo $id_shipping;exit;
-        if ($order_payment == 'tienmat' || $order_payment == 'chuyenkhoan') {
-            $data_order = array(
-                'order_status' => '0',
-                'order_code' => $order_code,
-                'order_date' => $order_date,
-                'order_payment' => $order_payment,
-                'order_shipping' => $id_shipping
-            );
-            $result_order = $orderModel->insertOrder($table_order, $data_order);
-
-            if (Session::get("shopping_cart") == true) {
-                foreach (Session::get("shopping_cart") as $key => $value) {
-                    $data_detail = array(
-                        'order_code' => $order_code,
-                        'product_id' => $value['product_id'],
-                        'product_quantity' => $value['product_quantity'],
-                        'name' => $name,
-                        'phone_number' => $phone_number,
-                        'address' => $address,
-                        'email' => $email,
-                        'content' => $content
-                    );
-                    $result_order_detail = $orderModel->insertOrderDetail($table_order_detail, $data_detail);
-                }
-                unset($_SESSION['shopping_cart']);
-            }
-            if ($result_order_detail == 1) {
-                $message['msg'] = " Thanh toán thành công!";
-
-                header("Location:" . BASE_URL . "/cart/thankYou?msg=" . urldecode(serialize($message)));
-            } else {
-                $message['msg'] = " Thanh toán thất bại!";
-                header("Location:" . BASE_URL . "/cart/thankYou?msg=" . urldecode(serialize($message)));
-            }
-        } elseif ($order_payment == 'vnpay') {
-            //config
-            date_default_timezone_set('Asia/Ho_Chi_Minh');
-            $vnp_TmnCode = "VHKWZDMW"; //Website ID in VNPAY System
-            $vnp_HashSecret = "IJRCDIKQIAXXALPXPOOVVMZXADGZTPXO"; //Secret key
-            $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-            $vnp_Returnurl = "http://localhost/Doan2-git/Doan2/cart/thankYou";
-            $vnp_apiUrl = "http://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
-            //Config input format
-            //Expire
-            $startTime = date("YmdHis");
-            $expire = date('YmdHis', strtotime('+15 minutes', strtotime($startTime)));
-            //end config
-            $vnp_TxnRef = $order_code; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-            $vnp_OrderInfo = "Thanh toán đơn hàng";
-            $vnp_OrderType = "other";
-            $vnp_Amount = $total * 100;
-            $vnp_Locale = "vn";
-            $vnp_BankCode = "NCB";
-            $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-
-            $inputData = array(
-                "vnp_Version" => "2.1.0",
-                "vnp_TmnCode" => $vnp_TmnCode,
-                "vnp_Amount" => $vnp_Amount,
-                "vnp_Command" => "pay",
-                "vnp_CreateDate" => date('YmdHis'),
-                "vnp_CurrCode" => "VND",
-                "vnp_IpAddr" => $vnp_IpAddr,
-                "vnp_Locale" => $vnp_Locale,
-                "vnp_OrderInfo" => $vnp_OrderInfo,
-                "vnp_OrderType" => $vnp_OrderType,
-                "vnp_ReturnUrl" => $vnp_Returnurl,
-                "vnp_TxnRef" => $vnp_TxnRef
-            );
-
-            if (isset($vnp_BankCode) && $vnp_BankCode != "") {
-                $inputData['vnp_BankCode'] = $vnp_BankCode;
-            }
-
-            ksort($inputData);
-            $query = "";
-            $i = 0;
-            $hashdata = "";
-            foreach ($inputData as $key => $value) {
-                if ($i == 1) {
-                    $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
-                } else {
-                    $hashdata .= urlencode($key) . "=" . urlencode($value);
-                    $i = 1;
-                }
-                $query .= urlencode($key) . "=" . urlencode($value) . '&';
-            }
-
-            $vnp_Url = $vnp_Url . "?" . $query;
-            if (isset($vnp_HashSecret)) {
-                $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
-                $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
-            }
-            $returnData = array(
-                'code' => '00', 'message' => 'success', 'data' => $vnp_Url
-            );
-            if (isset($_POST['redirect'])) {
-                Session::set('order_code', $order_code);
+        if (isset($_POST['redirect'])) {
+            if ($order_payment == 'tienmat' || $order_payment == 'chuyenkhoan') {
                 $data_order = array(
                     'order_status' => '0',
                     'order_code' => $order_code,
@@ -222,13 +134,123 @@ class cart extends DController
                     }
                     unset($_SESSION['shopping_cart']);
                 }
-                header('Location: ' . $vnp_Url);
-                die();
-            } else {
-                echo json_encode($returnData);
+                if ($result_order_detail == 1) {
+                    $message['msg'] = " Thanh toán thành công!";
+
+                    header("Location:" . BASE_URL . "/cart/thankYou?msg=" . urldecode(serialize($message)));
+                } else {
+                    $message['msg'] = " Thanh toán thất bại!";
+                    header("Location:" . BASE_URL . "/cart/thankYou?msg=" . urldecode(serialize($message)));
+                }
+            } elseif ($order_payment == 'vnpay') {
+                //config
+                date_default_timezone_set('Asia/Ho_Chi_Minh');
+                $vnp_TmnCode = "VHKWZDMW"; //Website ID in VNPAY System
+                $vnp_HashSecret = "IJRCDIKQIAXXALPXPOOVVMZXADGZTPXO"; //Secret key
+                $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+                $vnp_Returnurl = "http://localhost/Doan2-git/Doan2/cart/thankYou";
+                $vnp_apiUrl = "http://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
+                //Config input format
+                //Expire
+                $startTime = date("YmdHis");
+                $expire = date('YmdHis', strtotime('+15 minutes', strtotime($startTime)));
+                //end config
+                $vnp_TxnRef = $order_code; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+                $vnp_OrderInfo = "Thanh toán đơn hàng";
+                $vnp_OrderType = "other";
+                $vnp_Amount = $total * 1;
+                $vnp_Locale = "vn";
+                $vnp_BankCode = "NCB";
+                $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+
+                $inputData = array(
+                    "vnp_Version" => "2.1.0",
+                    "vnp_TmnCode" => $vnp_TmnCode,
+                    "vnp_Amount" => $vnp_Amount,
+                    "vnp_Command" => "pay",
+                    "vnp_CreateDate" => date('YmdHis'),
+                    "vnp_CurrCode" => "VND",
+                    "vnp_IpAddr" => $vnp_IpAddr,
+                    "vnp_Locale" => $vnp_Locale,
+                    "vnp_OrderInfo" => $vnp_OrderInfo,
+                    "vnp_OrderType" => $vnp_OrderType,
+                    "vnp_ReturnUrl" => $vnp_Returnurl,
+                    "vnp_TxnRef" => $vnp_TxnRef
+                );
+
+                if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+                    $inputData['vnp_BankCode'] = $vnp_BankCode;
+                }
+
+                ksort($inputData);
+                $query = "";
+                $i = 0;
+                $hashdata = "";
+                foreach ($inputData as $key => $value) {
+                    if ($i == 1) {
+                        $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+                    } else {
+                        $hashdata .= urlencode($key) . "=" . urlencode($value);
+                        $i = 1;
+                    }
+                    $query .= urlencode($key) . "=" . urlencode($value) . '&';
+                }
+
+                $vnp_Url = $vnp_Url . "?" . $query;
+                if (isset($vnp_HashSecret)) {
+                    $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
+                    $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+                }
+                $returnData = array(
+                    'code' => '00', 'message' => 'success', 'data' => $vnp_Url
+                );
+                if (isset($_POST['redirect'])) {
+                    Session::set('order_code', $order_code);
+                    $data_order = array(
+                        'order_status' => '0',
+                        'order_code' => $order_code,
+                        'order_date' => $order_date,
+                        'order_payment' => $order_payment,
+                        'order_shipping' => $id_shipping
+                    );
+                    $result_order = $orderModel->insertOrder($table_order, $data_order);
+
+                    if (Session::get("shopping_cart") == true) {
+                        foreach (Session::get("shopping_cart") as $key => $value) {
+                            $data_detail = array(
+                                'order_code' => $order_code,
+                                'product_id' => $value['product_id'],
+                                'product_quantity' => $value['product_quantity'],
+                                'name' => $name,
+                                'phone_number' => $phone_number,
+                                'address' => $address,
+                                'email' => $email,
+                                'content' => $content
+                            );
+                            $result_order_detail = $orderModel->insertOrderDetail($table_order_detail, $data_detail);
+                        }
+                        unset($_SESSION['shopping_cart']);
+                    }
+                    header('Location: ' . $vnp_Url);
+                    die();
+                } else {
+                    echo json_encode($returnData);
+                }
             }
-        } elseif ($order_payment == 'momo') {
-            echo 'thanh toán momo';
+            //update quantity product
+            $productModel = $this->load->model('productModel');
+            $tbl_pro = "tbl_product";
+            $cond  = "tbl_product.id_product = $id_pro";
+            $data['pro_id'] = $productModel->productID($tbl_pro, $cond);
+            foreach ($data['pro_id'] as $key => $value) {
+                $quantity_goc = $value['quantity_product'];
+            }
+            $new_quantity = $quantity_goc- $quantity;
+            // echo"so luong moi: ". $new_quantity;exit;
+            $data = array(
+                'quantity_product' => $new_quantity
+            );
+            $result=$productModel->updateQuantity($tbl_pro, $data, $cond);
         }
     }
 
@@ -242,6 +264,9 @@ class cart extends DController
                         unset($_SESSION['shopping_cart'][$key]);
                     }
                 }
+                if(empty( $_SESSION['shopping_cart'])==true){
+                    unset($_SESSION['shopping_cart']);
+                }
                 header("Location:" . BASE_URL . "/cart/cart");
             } else {
                 header("Location:" . BASE_URL);
@@ -252,10 +277,11 @@ class cart extends DController
                 foreach ($_POST['qty_plus'] as $key => $qty) {
                     // echo $key; exit;
                     foreach ($_SESSION['shopping_cart'] as $session => $value) {
-                        if ($value['product_id'] != $key) {
+                        //sản phẩm k đc click dấu cộng thì giữ nguyên số lượng
+                        if ($value['product_id'] != $key) { 
                             $_SESSION['shopping_cart'][$session]['product_quantity'] =  $_SESSION['shopping_cart'][$session]['product_quantity'];
                         } else {
-
+                            //sản phẩm đc click dấu cộng thì tăng số lượng lên 1
                             $qty += 1;
                             $_SESSION['shopping_cart'][$session]['product_quantity'] = $qty;
                         }
@@ -274,11 +300,6 @@ class cart extends DController
                     }
                 }
             }
-
-
-
-
-
             header("Location:" . BASE_URL . "/cart/cart");
         }
     }
@@ -288,13 +309,12 @@ class cart extends DController
 
         $customerModel = $this->load->model('customerModel');
         $categoryModel = $this->load->model('categoryModel');
-        $postModel = $this->load->model('postModel');
+
 
         $table = 'tbl_category';
         $tablePost = 'tbl_category_post';
 
         $data['category'] = $categoryModel->categoryHome($table);
-        $data['category_post'] = $postModel->categoryPostHome($tablePost);
 
         $table_ship = 'tbl_shipping';
         $cond = "$table_ship.id_customer='$id_customer'";
@@ -437,45 +457,57 @@ class cart extends DController
     public function historyCart($id_customer)
     {
         $categoryModel = $this->load->model('categoryModel');
-        $postModel = $this->load->model('postModel');
         $customerModel = $this->load->model('customerModel');
 
         $table = 'tbl_category';
-        $tablePost = 'tbl_category_post';
-
 
         $data['category'] = $categoryModel->categoryHome($table);
-        $data['category_post'] = $postModel->categoryPostHome($tablePost);
 
         $table_order = 'tbl_order';
         $cond = " $table_order.order_shipping = '$id_customer'";
         $data['history_cart'] = $customerModel->listHistoryCart($table_order, $cond);
 
-        $this->load->view('user/header', $data);
+        $this->load->view('user/header');
         // $this->load->view('user/slider');      
         $this->load->view('user/process/historyCart', $data);
         $this->load->view('user/footer');
     }
-    public function detailPayment($id_customer)
+    // public function detailPayment($id_customer, $order_code)
+    // {
+    //     $categoryModel = $this->load->model('categoryModel');
+    //     $customerModel = $this->load->model('customerModel');
+
+    //     $table = 'tbl_category';
+
+    //     $data['category'] = $categoryModel->categoryHome($table);
+
+    //     $table_order = 'tbl_order';
+    //     $cond = " $table_order.order_shipping = '$id_customer'";
+    //     $data['history_cart'] = $customerModel->listHistoryCart($table_order, $cond);
+
+    //     foreach ($data['history_cart'] as $key => $value) {
+    //         $order_code =  $value['order_code'];
+    //     }
+    //     $table_vnpay = 'tbl_vnpay';
+    //     $cond_vnpay = "$table_vnpay.order_code = '$order_code'";
+    //     $data['detail_vnpay'] = $customerModel->detailVNPay($table_vnpay, $cond_vnpay);
+
+    //     $this->load->view('user/header', $data);
+    //     // $this->load->view('user/slider');      
+    //     $this->load->view('user/process/detailPayment', $data);
+    //     $this->load->view('user/footer');
+    // }
+     public function detailPayment( $order_code)
     {
         $categoryModel = $this->load->model('categoryModel');
-        $postModel = $this->load->model('postModel');
         $customerModel = $this->load->model('customerModel');
 
         $table = 'tbl_category';
-        $tablePost = 'tbl_category_post';
-
 
         $data['category'] = $categoryModel->categoryHome($table);
-        $data['category_post'] = $postModel->categoryPostHome($tablePost);
 
         $table_order = 'tbl_order';
-        $cond = " $table_order.order_shipping = '$id_customer'";
-        $data['history_cart'] = $customerModel->listHistoryCart($table_order, $cond);
 
-        foreach ($data['history_cart'] as $key => $value) {
-            $order_code =  $value['order_code'];
-        }
         $table_vnpay = 'tbl_vnpay';
         $cond_vnpay = "$table_vnpay.order_code = '$order_code'";
         $data['detail_vnpay'] = $customerModel->detailVNPay($table_vnpay, $cond_vnpay);

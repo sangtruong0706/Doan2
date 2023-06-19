@@ -41,13 +41,14 @@
                                 <?php if ($value['order_status'] == 0) {
                                     echo 'Đơn hàng mới';
                                 } else {
-                                    echo "Đã xử lý";
+                                    echo "Đơn hàng đã được xử lý";
                                 }
                                 ?>
                             </td>
                             <td><?= $value['order_payment'] ?></td>
                             <td>
-                                <a href="<?= BASE_URL ?>/order/orderDetail/<?= $value['order_code'] ?>"><i title="Xem chi tiết" class="bi bi-eye"></i></a>
+                                <a href="<?= BASE_URL ?>/order/orderDetail/<?= $value['order_code'] ?>"><i title="Xem chi tiết" class="bi bi-eye"></i></a> || 
+                                <a onclick="return confirm('Bạn có chắc chắn muốn xóa không??')" href="<?= BASE_URL ?>/order/deleteOrder/<?=$value['order_code']?>"><i title="Xóa" class="bi bi-trash3"></i></a>
 
                             </td>
                         </tr>

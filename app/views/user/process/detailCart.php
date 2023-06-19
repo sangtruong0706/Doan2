@@ -1,4 +1,4 @@
-<section>
+
     <div class="container">
 
         <div class="pagetitle">
@@ -94,4 +94,3 @@
             </div>
         </div>
     </div>
-</section>

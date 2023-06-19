@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="zxx">
+<html class="no-js" lang="en">
 
 <!-- index28:48-->
 
@@ -123,7 +123,7 @@
                                         <div class="ht-language-trigger"><span>English</span></div>
                                         <div class="language ht-language">
                                             <ul class="ht-setting-list">
-                                                <li class="active"><a href="#"><img src="images/menu/flag-icon/1.jpg" alt="">English</a></li>
+                                                <li class="active"><a href="#"><img src="<?= ASSETS ?>/user/images/menu/flag-icon/1.jpg" alt="">English</a></li>
                                                 <li><a href="#"><img src="images/menu/flag-icon/2.jpg" alt="">Français</a></li>
                                             </ul>
                                         </div>
@@ -155,7 +155,7 @@
                             <!-- Begin Header Middle Searchbox Area -->
                             
                             <form class="hm-searchbox" method="GET" action="<?= BASE_URL ?>/index/Search">
-                                <input type="text" name="key_search"  placeholder="Enter your search key ...">
+                                <input type="text" name="key_search" required  placeholder="Enter your search key ...">
                                 <button class="li-btn" name="search" type="submit"><i class="fa fa-search"></i></button>
                             </form>
                             <!-- Header Middle Searchbox Area End Here -->

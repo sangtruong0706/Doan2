@@ -2,8 +2,8 @@
     <div class="container">
         <div class="breadcrumb-content">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li class="active">About Us</li>
+                <li><a href="<?= BASE_URL ?>">Home</a></li>
+                <li class="active">Giới thiệu</li>
             </ul>
         </div>
     </div>
@@ -43,7 +43,7 @@
                 <div class="limupa-counter white-smoke-bg">
                     <div class="container">
                         <div class="counter-img">
-                            <img src="images/about-us/icon/1.png" alt="">
+                            <img src="<?=ASSETS?>/user/images/about-us/icon/1.png" alt="">
                         </div>
                         <div class="counter-info">
                             <div class="counter-number">
@@ -61,7 +61,7 @@
                 <!-- Begin limupa Counter Area -->
                 <div class="limupa-counter gray-bg">
                     <div class="counter-img">
-                        <img src="images/about-us/icon/2.png" alt="">
+                        <img src="<?=ASSETS?>/user/images/about-us/icon/2.png" alt="">
                     </div>
                     <div class="counter-info">
                         <div class="counter-number">
@@ -78,7 +78,7 @@
                 <!-- Begin limupa Counter Area -->
                 <div class="limupa-counter white-smoke-bg">
                     <div class="counter-img">
-                        <img src="images/about-us/icon/3.png" alt="">
+                        <img src="<?=ASSETS?>/user/images/about-us/icon/3.png" alt="">
                     </div>
                     <div class="counter-info">
                         <div class="counter-number">
@@ -95,7 +95,7 @@
                 <!-- Begin limupa Counter Area -->
                 <div class="limupa-counter gray-bg">
                     <div class="counter-img">
-                        <img src="images/about-us/icon/4.png" alt="">
+                        <img src="<?=ASSETS?>/user/images/about-us/icon/4.png" alt="">
                     </div>
                     <div class="counter-info">
                         <div class="counter-number">
@@ -126,10 +126,10 @@
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="team-member mb-60 mb-sm-30 mb-xs-30">
                     <div class="team-thumb">
-                        <img src="<?=ASSETS?>/user/images/team/1.png" alt="Our Team Member">
+                        <img src="<?=ASSETS?>/user/images/team/binh.jpg" alt="Our Team Member">
                     </div>
                     <div class="team-content text-center">
-                        <h3>Jonathan Scott</h3>
+                        <h3>Phan Gia Bình</h3>
                         <p>IT Expert</p>
                         <a href="#">info@example.com</a>
                         <div class="team-social">
@@ -144,10 +144,10 @@
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="team-member mb-60 mb-sm-30 mb-xs-30">
                     <div class="team-thumb">
-                        <img src="<?=ASSETS?>/user/images/team/2.png" alt="Our Team Member">
+                        <img src="<?=ASSETS?>/user/images/team/bao.jpg" alt="Our Team Member">
                     </div>
                     <div class="team-content text-center">
-                        <h3>Oliver Bastin</h3>
+                        <h3>Nguyễn Hà Gia Bảo</h3>
                         <p>Web Designer</p>
                         <a href="#">info@example.com</a>
                         <div class="team-social">
@@ -162,10 +162,10 @@
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="team-member mb-30 mb-sm-60">
                     <div class="team-thumb">
-                        <img src="<?=ASSETS?>/user/images/team/3.png" alt="Our Team Member">
+                        <img src="<?=ASSETS?>/user/images/team/sang.jpg" alt="Our Team Member">
                     </div>
                     <div class="team-content text-center">
-                        <h3>Erik Jonson</h3>
+                        <h3>Trương Văn Sang Em</h3>
                         <p>Web Developer</p>
                         <a href="#">info@example.com</a>
                         <div class="team-social">
@@ -180,10 +180,10 @@
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="team-member mb-30 mb-sm-60 mb-xs-60">
                     <div class="team-thumb">
-                        <img src="<?=ASSETS?>/user/images/team/4.png" alt="Our Team Member">
+                        <img src="<?=ASSETS?>/user/images/team/dong.jpg" alt="Our Team Member">
                     </div>
                     <div class="team-content text-center">
-                        <h3>Maria Mandy</h3>
+                        <h3>Nguyễn Văn Đông</h3>
                         <p>Marketing officer</p>
                         <a href="#">info@example.com</a>
                         <div class="team-social">

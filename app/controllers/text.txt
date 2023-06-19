@@ -64,3 +64,28 @@
             }
         }
     }
+
+
+
+    $productModel = $this->load->model('productModel');
+        $tbl_pro = "tbl_product";
+        $cond  = "tbl_product.id_product = $id_pro";
+        $data['pro_id'] = $productModel->productID($tbl_pro, $cond);
+        foreach ($data['pro_id'] as $key => $value) {
+            $quantity_goc = $value['quantity_product'];
+        }
+        $new_quantity = $quantity_goc- $quantity;
+        // echo"so luong moi: ". $new_quantity;exit;
+        $data = array(
+            'quantity_product' => $new_quantity
+        );
+        $result=$productModel->updateQuantity($tbl_pro, $data, $cond);
+
+
+
+
+        <div class="step current complete"> <span><a href="<?= BASE_URL ?>/cart/infoPay/<?php if (isset($_SESSION['id_customer'])) {
+                                                                                    echo $_SESSION['id_customer'];
+                                                                                } else {
+                                                                                    echo '';
+                                                                                } ?>">Thanh toán</a><span> </div>

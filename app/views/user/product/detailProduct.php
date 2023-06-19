@@ -49,6 +49,7 @@ foreach ($detail_product as $key => $value) {
                         <div class="product-details-view-content pt-60">
                             <div class="product-info">
                                 <h2><?= $detail['title_product'] ?></h2>
+                                <span class="product-details-ref">Tình trạng: <?php if($detail['quantity_product']!=0){echo "Còn hàng";}else{echo "Hết hàng";} ?></span>
                                 <div class="price-box pt-20">
                                     <span class="new-price new-price-2"><?= number_format($detail['price_product'], 0, ',', '.') . 'vnđ' ?></span>
                                 </div>

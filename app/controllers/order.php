@@ -50,6 +50,19 @@
                 header('Location:'.BASE_URL."/order");
             }
         }
+        public function deleteOrder($order_code){
+            $table = 'tbl_order';
+            $cond = "order_code='$order_code'";
+            $orderModel = $this->load->model('orderModel');
+            $result = $orderModel->deleteOrder($table, $cond);
+            if ($result == 1){
+                Session::set('message','Xóa đơn hàng thành công!');
+                header('Location:'.BASE_URL."/order");
+            }else{
+                Session::set('message','Xóa đơn hàng thất bại!');
+                header('Location:'.BASE_URL."/order");
+            }
+        }
 
     }
 ?>

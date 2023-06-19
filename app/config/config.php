@@ -1,6 +1,6 @@
 <?php
 // define('BASE_URL', 'http://localhost/Mohinh_MVC');
-define('WEBSITE_TITLE', "Cây xanh Store");
+define('WEBSITE_TITLE', "Laptop - LiMuPa");
 define('PROTOCOL', 'http');
 
 /*root and asset paths*/

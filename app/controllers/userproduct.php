@@ -65,15 +65,15 @@ class userproduct extends DController
     {
         $categoryModel = $this->load->model('categoryModel');
         $productModel = $this->load->model('productModel');
-        $postModel = $this->load->model('postModel');
+
 
         $tableCate = 'tbl_category';
-        $tablePost = 'tbl_category_post';
+
         $tablePro = 'tbl_product';
 
 
         $data['category'] = $categoryModel->categoryHome($tableCate);
-        $data['category_post'] = $postModel->categoryPostHome($tablePost);
+
         $data['detail_product'] = $productModel->detailProductHome($tableCate, $tablePro, $id);
         // $data['quickView'] = $productModel->quickViewProduct($tableCate, $tablePro, $id);
         foreach ($data['detail_product'] as $key => $value) {
@@ -82,7 +82,7 @@ class userproduct extends DController
         $cond = " $tableCate.id_category=$tablePro.id_category AND $tableCate.id_category='$id_cate' AND $tablePro.id_product NOT IN($id)";
         $data['related_product'] = $productModel->relatedProductHome($tableCate, $tablePro, $cond);
 
-        $this->load->view('user/header', $data);
+        $this->load->view('user/header');
         // $this->load->view('user/slider');      
         $this->load->view('user/product/detailProduct', $data);
         $this->load->view('user/footer');

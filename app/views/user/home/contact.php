@@ -3,8 +3,8 @@
     <div class="container">
         <div class="breadcrumb-content">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li class="active">Contact</li>
+                <li><a href="<?= BASE_URL ?>">Home</a></li>
+                <li class="active">Liên hệ</li>
             </ul>
         </div>
     </div>
